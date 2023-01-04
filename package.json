@@ -1,7 +1,6 @@
 {
   "name": "ddrs_backend_api",
   "version": "1.0.0",
-  "proxy": "http://localhost:3000/",
   "description": "",
   "main": "server.js",
   "scripts": {
