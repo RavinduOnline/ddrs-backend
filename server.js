@@ -34,6 +34,7 @@ mongoose
 
 
 //Middleware 
+app.use(cors());     
 app.use(bodyParser.json({ limit: "500mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "500mb" }));
 app.use(express.json());
@@ -61,8 +62,6 @@ app.get("/", (req, res, next) =>{
     next();
 });
  
-app.use(cors());     
-
 app.listen(PORT, () =>{
     console.log(`🚀 Server is UP and running on PORT ${PORT }`)
 });
