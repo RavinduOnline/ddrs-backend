@@ -36,9 +36,8 @@ mongoose
 //Middleware 
 app.use(bodyParser.json({ limit: "500mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "500mb" }));
-app.use(express.json());
 app.use(cors());     
-
+app.use(express.json());
 
 app.use(require("./routes/adminauth"));
 app.use(require("./routes/forum"));
