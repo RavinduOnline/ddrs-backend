@@ -5,9 +5,6 @@ const path = require("path");
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || "8000";   
-
-
 require ("dotenv").config();
 
 //import routes
@@ -23,9 +20,20 @@ require("./models/reply")
 
 
 
-//Middleware 
-app.use(cors());     
+const PORT = process.env.PORT || "8000";   
 
+//DB Connection
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("📚 DB is Connected"))
+  .catch((err) => console.log("😨 DB Connection has error -> ",err));
+
+
+
+//Middleware 
 app.use(bodyParser.json({ limit: "500mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "500mb" }));
 app.use(express.json());
@@ -42,22 +50,6 @@ app.use((req, res, next) => {
   next();
 });
 
-//DB Connection
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("📚 DB is Connected"))
-  .catch((err) => console.log("😨 DB Connection has error -> ",err));
-
-
-app.listen(PORT, () =>{
-  console.log(`🚀 Server is UP and running on PORT ${PORT }`)
-});
-
-
-
 
 app.use("/uploads", express.static(path.join(__dirname, "/../uploads")));
 app.use(express.static(path.join(__dirname, "/../frontend/build")));
@@ -69,6 +61,11 @@ app.get("/", (req, res, next) =>{
     next();
 });
  
+app.use(cors());     
+
+app.listen(PORT, () =>{
+    console.log(`🚀 Server is UP and running on PORT ${PORT }`)
+});
 
 const userRouter=require("./routes/profileauth.js");
 app.use("/user",userRouter)
