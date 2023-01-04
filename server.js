@@ -37,6 +37,8 @@ mongoose
 app.use(bodyParser.json({ limit: "500mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "500mb" }));
 app.use(express.json());
+app.use(cors());     
+
 
 app.use(require("./routes/adminauth"));
 app.use(require("./routes/forum"));
@@ -61,7 +63,7 @@ app.get("/", (req, res, next) =>{
     next();
 });
  
-app.use(cors());     
+
 
 app.listen(PORT, () =>{
     console.log(`🚀 Server is UP and running on PORT ${PORT }`)
