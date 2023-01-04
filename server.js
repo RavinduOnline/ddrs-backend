@@ -22,16 +22,6 @@ require("./models/reply")
 
 const PORT = process.env.PORT || "8000";   
 
-//DB Connection
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("📚 DB is Connected"))
-  .catch((err) => console.log("😨 DB Connection has error -> ",err));
-
-
 
 //Middleware 
 app.use(bodyParser.json({ limit: "500mb" }));
@@ -50,6 +40,16 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "*");
   next();
 });
+
+//DB Connection
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("📚 DB is Connected"))
+  .catch((err) => console.log("😨 DB Connection has error -> ",err));
+
 
 
 app.use("/uploads", express.static(path.join(__dirname, "/../uploads")));
