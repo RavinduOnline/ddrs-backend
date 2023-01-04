@@ -5,6 +5,9 @@ const path = require("path");
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
+const PORT = process.env.PORT || "8000";   
+
+
 require ("dotenv").config();
 
 //import routes
@@ -20,13 +23,11 @@ require("./models/reply")
 
 
 
-const PORT = process.env.PORT || "8000";   
-
-
 //Middleware 
+app.use(cors());     
+
 app.use(bodyParser.json({ limit: "500mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "500mb" }));
-app.use(cors());     
 app.use(express.json());
 
 app.use(require("./routes/adminauth"));
@@ -51,6 +52,12 @@ mongoose
   .catch((err) => console.log("😨 DB Connection has error -> ",err));
 
 
+app.listen(PORT, () =>{
+  console.log(`🚀 Server is UP and running on PORT ${PORT }`)
+});
+
+
+
 
 app.use("/uploads", express.static(path.join(__dirname, "/../uploads")));
 app.use(express.static(path.join(__dirname, "/../frontend/build")));
@@ -62,11 +69,6 @@ app.get("/", (req, res, next) =>{
     next();
 });
  
-
-
-app.listen(PORT, () =>{
-    console.log(`🚀 Server is UP and running on PORT ${PORT }`)
-});
 
 const userRouter=require("./routes/profileauth.js");
 app.use("/user",userRouter)
