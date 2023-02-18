@@ -22,14 +22,7 @@ require("./models/reply")
 
 const PORT = process.env.PORT || "8000";   
 
-//DB Connection
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("📚 DB is Connected"))
-  .catch((err) => console.log("😨 DB Connection has error -> ",err));
+
 
 
 
@@ -55,7 +48,16 @@ app.use((req, res, next) => {
 app.use("/uploads", express.static(path.join(__dirname, "/../uploads")));
 app.use(express.static(path.join(__dirname, "/../frontend/build")));
 
+//DB Connection
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("📚 DB is Connected"))
+  .catch((err) => console.log("😨 DB Connection has error -> ",err));
 
+  
 // Routes
 app.get("/", (req, res, next) =>{
     res.send("<h1>❤️ DDRS Community Server</br> Developed By <a href='http://sliit.lk'>TEAM X</a></h1>");
